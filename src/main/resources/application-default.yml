@@ -1,0 +1,9 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: book
+  data:
+    mongodb:
+      uri: mongodb://book:book123@ds121652.mlab.com:21652/bookdb

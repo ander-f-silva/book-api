@@ -24,6 +24,12 @@ public class ExceptionHandlerAdvice {
 		return new ResponseEntity<>(error, httpStatus);
 	}
 
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<Map> exception(NotFoundException exception) {
+		return error(exception, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+
 	@ExceptionHandler(NotFoundException.class)
 	public ResponseEntity<Map> notFound(NotFoundException exception) {
 		return error(exception, HttpStatus.NOT_FOUND);
