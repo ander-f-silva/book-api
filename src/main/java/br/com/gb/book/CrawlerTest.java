@@ -6,7 +6,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.*;
 
 public class CrawlerTest {
 
@@ -16,34 +16,55 @@ public class CrawlerTest {
         this.links = new HashSet<>();
     }
 
-    public void getPageLinks(String URL) {
-        //4. Check if you have already crawled the URLs
-        //(we are intentionally not checking for duplicate content in this example)
-        if (!links.contains(URL)) {
-            try {
-                //4. (i) If not add it to the index
-                if (links.add(URL)) {
-                    System.out.println(URL);
-                }
+    public void getPageLinks(String URL) throws IOException {
 
-                //2. Fetch the HTML code
-                Document document = Jsoup.connect(URL).get();
-                //3. Parse the HTML to extract links to other URLs
-                Elements linksOnPage = document.select("h2");
+        Document document = Jsoup.connect(URL).get();
+        Elements titles = document.getElementsByTag("h2");
 
-                //5. For each extracted URL... go back to Step 4.
-                for (Element page : linksOnPage) {
-                    // getPageLinks(page.attr("abs:href"));
-                    System.out.println(page.data());
-                }
-            } catch (IOException e) {
-                System.err.println("For '" + URL + "': " + e.getMessage());
+        List<String> arrayTitles = new LinkedList<>();
+
+        for (Element title : titles) {
+            arrayTitles.add(title.text());
+        }
+
+        arrayTitles.stream().forEach(s -> System.out.println("Title: " +s));
+
+        Elements paragraphs = document.getElementsByTag("p");
+
+        Map<String, StringBuffer> arrayParagraphs = new LinkedHashMap<>();
+
+        String content = "";
+
+        for (Element paragraph : paragraphs) {
+            Elements children = paragraph.children();
+
+            Elements as = children.tagName("a");
+
+            content = as.isEmpty() ? content : as.first().text();
+
+            if (!arrayParagraphs.containsKey(content)) {
+                arrayParagraphs.put(content, new StringBuffer(paragraph.text()));
+            } else {
+                arrayParagraphs.get(content).append(paragraph.text());
             }
         }
+
+        arrayParagraphs.entrySet().stream().forEach(p -> System.out.println("Paragraf: " + p.getValue()));
+
+        Elements links = document.getElementsByClass("event-lang");
+
+        List<String> arrayLinks = new LinkedList<>();
+
+        for (Element link : links) {
+            arrayLinks.add(link.text());
+        }
+
+        arrayLinks.stream().forEach(l -> System.out.println("Link: " + l));
+
+
     }
 
-    public static void main(String[] args) {
-        //1. Pick a URL from the frontier
+    public static void main(String[] args) throws IOException {
         new CrawlerTest().getPageLinks("https://kotlinlang.org/docs/books.html");
     }
 
