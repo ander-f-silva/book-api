@@ -7,6 +7,8 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public class CrawlerTest {
 
@@ -19,48 +21,30 @@ public class CrawlerTest {
     public void getPageLinks(String URL) throws IOException {
 
         Document document = Jsoup.connect(URL).get();
+
         Elements titles = document.getElementsByTag("h2");
-
-        List<String> arrayTitles = new LinkedList<>();
-
-        for (Element title : titles) {
-            arrayTitles.add(title.text());
-        }
-
-        arrayTitles.stream().forEach(s -> System.out.println("Title: " +s));
-
         Elements paragraphs = document.getElementsByTag("p");
+        Elements langs = document.getElementsByClass("event-lang");
 
-        Map<String, StringBuffer> arrayParagraphs = new LinkedHashMap<>();
+        int time = titles.size();
 
-        String content = "";
+        List<String> arrayTitles = titles.stream()
+                                        .map(t -> t.text())
+                                        .collect(Collectors.toCollection(LinkedList::new));
 
-        for (Element paragraph : paragraphs) {
-            Elements children = paragraph.children();
+        List<String> arrayLangs = langs.stream()
+                                       .map(t -> t.text())
+                                       .collect(Collectors.toCollection(LinkedList::new));
 
-            Elements as = children.tagName("a");
 
-            content = as.isEmpty() ? content : as.first().text();
 
-            if (!arrayParagraphs.containsKey(content)) {
-                arrayParagraphs.put(content, new StringBuffer(paragraph.text()));
-            } else {
-                arrayParagraphs.get(content).append(paragraph.text());
-            }
-        }
 
-        arrayParagraphs.entrySet().stream().forEach(p -> System.out.println("Paragraf: " + p.getValue()));
 
-        Elements links = document.getElementsByClass("event-lang");
 
-        List<String> arrayLinks = new LinkedList<>();
 
-        for (Element link : links) {
-            arrayLinks.add(link.text());
-        }
-
-        arrayLinks.stream().forEach(l -> System.out.println("Link: " + l));
-
+//        for (int i = 0; i <time; i++) {
+//           System.out.println("Title: " + arrayTitles.get(i) + " Paragraf: " + arrayParagraphs.get(arrayTitles.get(i)) + " Lang: " + arrayLangs.get(i));
+//        }
 
     }
 
