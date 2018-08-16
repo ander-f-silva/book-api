@@ -125,7 +125,7 @@ if [ -z "$JAVA_HOME" ]; then
     if [ ! `expr "$readLink" : '\([^ ]*\)'` = "no" ]; then
       if $darwin ; then
         javaHome="`dirname \"$javaExecutable\"`"
-        javaExecutable="`cd \"$javaHome\" && pwd -P`/javac"
+        javaExecutable="`cd \"$javaHome\" && pwd -TAG_P`/javac"
       else
         javaExecutable="`readlink -f \"$javaExecutable\"`"
       fi
