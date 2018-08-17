@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = BookApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class BookResourceGetIT {
+public class BookResourceGetTest {
     private static final String URI_API_BOOKS = "/library/api/v1/books";
 
     @Autowired
