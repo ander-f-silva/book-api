@@ -1,8 +1,13 @@
-package br.com.gb.book.insfrastructure.crawler;
+package br.com.gb.book.setup;
 
+import br.com.gb.book.domain.entity.Book;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -14,9 +19,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-
+@Slf4j
+@Component
 public class BookCrawler {
-    private static final String URL_BOOKS ="https://kotlinlang.org/docs/books.html";
+
+    @Value("${url.books}")
+    private String urlBooks;
 
     public static final String TAG_A = "a";
     public static final String TAG_P = "p";
@@ -34,18 +42,23 @@ public class BookCrawler {
     public static final String EVENT_LANG = "event-lang";
     public static final String REGEX_ISBN = "(ISBN[-]*(1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){15}|([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})";
 
-    private Map<String, String> mapLinks = new LinkedHashMap<>();
+    public List<Book> parser() throws Exception {
+        log.info("Start parser");
 
-    public void parser() throws Exception {
-        Document document = Jsoup.connect(URL_BOOKS).get();
+        Document document = Jsoup.connect(urlBooks).get();
+
+        log.info("Search title and languages");
 
         List<String> arrayTitles = convertElementsIntoList(document.getElementsByTag(TAG_H2));
         List<String> arrayLanguages = convertElementsIntoList(document.getElementsByClass(EVENT_LANG));
 
         Elements descriptions = document.getElementsByTag(TAG_P);
 
+        Map<String, String> mapLinks = new LinkedHashMap<>();
         Map<String, StringBuffer> mapDescription = new LinkedHashMap<>();
         AtomicReference<String> atomicTitle = new AtomicReference<>(SPACE);
+
+        log.info("Search descriptions");
 
         descriptions
             .stream()
@@ -66,6 +79,8 @@ public class BookCrawler {
                       mapDescription.get(atomicTitle.get()).append(d.text());
                   }
             });
+
+        log.info("Search ibns");
 
         Map<String, String> mapIbns = new LinkedHashMap<>();
 
@@ -99,12 +114,24 @@ public class BookCrawler {
 
         int time = arrayTitles.size();
 
+        List<Book> entities = new LinkedList<>();
+
         for (int i = 0; i < time; i++) {
-           System.out.println("title: " + arrayTitles.get(i) +
-                              "description: " + mapDescription.get(arrayTitles.get(i)) +
-                              "IBNS: " + mapIbns.get(arrayTitles.get(i)) +
-                              "lang: " + arrayLanguages.get(i));
+            String title = arrayTitles.get(i);
+            StringBuffer description  = mapDescription.get(arrayTitles.get(i));
+            String ibns = mapIbns.get(arrayTitles.get(i));
+            String language = arrayLanguages.get(i);
+
+            entities.add(Book.builder()
+                             .title(title)
+                             .description(String.valueOf(description))
+                             .isbn(ibns)
+                             .language(language)
+                             .build());
+
         }
+
+        return entities;
     }
 
     private List<String> convertElementsIntoList(Elements elements) {

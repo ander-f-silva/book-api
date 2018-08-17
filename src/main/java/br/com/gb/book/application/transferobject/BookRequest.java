@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookTransferObject implements Serializable {
+public class BookRequest implements Serializable {
     private static final long serialVersionUID = 8654718517126746109L;
 
     @NotNull(message = "Field title is required")

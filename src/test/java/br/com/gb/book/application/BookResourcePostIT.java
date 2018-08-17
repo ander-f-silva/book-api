@@ -1,7 +1,7 @@
 package br.com.gb.book.application;
 
 import br.com.gb.book.BookApplication;
-import br.com.gb.book.application.transferobject.BookTransferObject;
+import br.com.gb.book.application.transferobject.BookRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class BookResourcePostIT {
         String name = "Kotlin in Action";
         String description = "Kotlin in Action teaches you to use the Kotlin language for production-quality applications.";
 
-        HttpEntity<BookTransferObject> entity = new HttpEntity<>(new BookTransferObject(name,description, isbn, language), headers);
+        HttpEntity<BookRequest> entity = new HttpEntity<>(new BookRequest(name,description, isbn, language), headers);
         ResponseEntity<Void> response = restTemplate.postForEntity(URI_API_BOOKS, entity, Void.class);
         String location = response.getHeaders().get(HttpHeaders.LOCATION).get(0);
 
@@ -50,7 +50,7 @@ public class BookResourcePostIT {
         String isbn = "9781617293290";
         String description = "Kotlin in Action teaches you to use the Kotlin language for production-quality applications.";
 
-        HttpEntity<BookTransferObject> entity = new HttpEntity<>(new BookTransferObject(name,description, isbn, language), headers);
+        HttpEntity<BookRequest> entity = new HttpEntity<>(new BookRequest(name,description, isbn, language), headers);
         ResponseEntity<Void> response = restTemplate.postForEntity(URI_API_BOOKS, entity, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -63,7 +63,7 @@ public class BookResourcePostIT {
         String isbn = "9781617293290";
         String name = "Kotlin in Action";
 
-        HttpEntity<BookTransferObject> entity = new HttpEntity<>(new BookTransferObject(name,description, isbn, language), headers);
+        HttpEntity<BookRequest> entity = new HttpEntity<>(new BookRequest(name,description, isbn, language), headers);
         ResponseEntity<Void> response = restTemplate.postForEntity(URI_API_BOOKS, entity, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -76,7 +76,7 @@ public class BookResourcePostIT {
         String name = "Kotlin in Action";
         String description = "Kotlin in Action teaches you to use the Kotlin language for production-quality applications.";
 
-        HttpEntity<BookTransferObject> entity = new HttpEntity<>(new BookTransferObject(name,description, isbn, language), headers);
+        HttpEntity<BookRequest> entity = new HttpEntity<>(new BookRequest(name,description, isbn, language), headers);
         ResponseEntity<Void> response = restTemplate.postForEntity(URI_API_BOOKS, entity, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
@@ -89,7 +89,7 @@ public class BookResourcePostIT {
         String name = "Kotlin in Action";
         String description = "Kotlin in Action teaches you to use the Kotlin language for production-quality applications.";
 
-        HttpEntity<BookTransferObject> entity = new HttpEntity<>(new BookTransferObject(name,description, isbn, language), headers);
+        HttpEntity<BookRequest> entity = new HttpEntity<>(new BookRequest(name,description, isbn, language), headers);
         ResponseEntity<Void> response = restTemplate.postForEntity(URI_API_BOOKS, entity, Void.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());

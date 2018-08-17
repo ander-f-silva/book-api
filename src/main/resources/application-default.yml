@@ -7,3 +7,6 @@ spring:
   data:
     mongodb:
       uri: mongodb://book:book123@ds121652.mlab.com:21652/bookdb
+
+url:
+  books: https://kotlinlang.org/docs/books.html

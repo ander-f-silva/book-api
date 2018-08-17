@@ -1,15 +1,16 @@
 package br.com.gb.book.domain.adapter;
 
-import br.com.gb.book.application.transferobject.BookTransferObject;
+import br.com.gb.book.application.transferobject.BookRequest;
+import br.com.gb.book.application.transferobject.BookResponse;
 import br.com.gb.book.domain.entity.Book;
 
 public class BookAdapter {
 
     private Book entity;
 
-    private BookTransferObject to;
+    private BookRequest to;
 
-    public BookAdapter(BookTransferObject to) {
+    public BookAdapter(BookRequest to) {
         this.to = to;
     }
 
@@ -26,11 +27,12 @@ public class BookAdapter {
                     .build();
     }
 
-    public BookTransferObject converterTransferObject() {
+    public BookResponse converterTransferObject() {
+        String id = entity.getId();
         String title = entity.getTitle();
         String description = entity.getDescription();
         String isbn = entity.getIsbn();
         String language = entity.getLanguage();
-        return new BookTransferObject(title,description, isbn, language);
+        return new BookResponse(id, title,description, isbn, language);
     }
 }
