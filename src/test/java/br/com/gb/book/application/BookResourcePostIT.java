@@ -29,7 +29,7 @@ public class BookResourcePostIT {
     private HttpHeaders headers = new HttpHeaders();
 
     @Test
-    public void shouldAddBookWithSuccess() throws Exception {
+    public void shouldAddBookWithSuccess() {
         String language = "EN";
         String isbn = "9781617293290";
         String name = "Kotlin in Action";
@@ -44,7 +44,7 @@ public class BookResourcePostIT {
     }
 
     @Test
-    public void shouldAddBookWithFieldNameItsNull() throws Exception {
+    public void shouldAddBookWithFieldNameItsNull() {
         String name = null;
         String language = "EN";
         String isbn = "9781617293290";
@@ -57,7 +57,7 @@ public class BookResourcePostIT {
     }
 
     @Test
-    public void shouldAddBookWithFieldDescriptionItsNull() throws Exception {
+    public void shouldAddBookWithFieldDescriptionItsNull() {
         String language = "EN";
         String description = null;
         String isbn = "9781617293290";
@@ -70,7 +70,7 @@ public class BookResourcePostIT {
     }
 
     @Test
-    public void shouldAddBookWithFieldIsbnItsNull() throws Exception {
+    public void shouldAddBookWithFieldIsbnItsNull()  {
         String isbn = null;
         String language = "EN";
         String name = "Kotlin in Action";
@@ -83,7 +83,7 @@ public class BookResourcePostIT {
     }
 
     @Test
-    public void shouldAddBookWithFieldLanguageItsNull() throws Exception {
+    public void shouldAddBookWithFieldLanguageItsNull() {
         String language = null;
         String isbn = "9781617293290";
         String name = "Kotlin in Action";

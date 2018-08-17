@@ -1,5 +1,6 @@
 package br.com.gb.book.application;
 
+import br.com.gb.book.application.transferobject.BookListResponse;
 import br.com.gb.book.application.transferobject.BookRequest;
 import br.com.gb.book.application.transferobject.BookResponse;
 import br.com.gb.book.domain.service.BookService;
@@ -32,5 +33,11 @@ public class BookResource {
     public ResponseEntity<BookResponse> find(@PathVariable("id") String id) throws Exception {
         BookResponse to = service.find(id);
         return ResponseEntity.ok(to);
+    }
+
+    @GetMapping
+    public ResponseEntity<BookListResponse> findAll() throws Exception {
+        BookListResponse tos = service.findAll();
+        return ResponseEntity.ok(tos);
     }
 }

@@ -110,6 +110,8 @@ public class BookResourceGetIT {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
+        assertEquals(2, response.getBody().getBooks().size());
+
         assertNotNull(response.getBody().getBooks().get(0).getId());
         assertEquals(isbnOne, response.getBody().getBooks().get(0).getIsbn());
         assertEquals(titleOne, response.getBody().getBooks().get(0).getTitle());
@@ -117,23 +119,19 @@ public class BookResourceGetIT {
         assertEquals(descriptionOne, response.getBody().getBooks().get(0).getDescription());
 
         assertNotNull(response.getBody().getBooks().get(1).getId());
-        assertEquals(isbnOne, response.getBody().getBooks().get(1).getIsbn());
-        assertEquals(titleOne, response.getBody().getBooks().get(1).getTitle());
-        assertEquals(languageOne, response.getBody().getBooks().get(1).getLanguage());
-        assertEquals(descriptionOne, response.getBody().getBooks().get(1).getDescription());
+        assertEquals(isbnTwo, response.getBody().getBooks().get(1).getIsbn());
+        assertEquals(titleTwo, response.getBody().getBooks().get(1).getTitle());
+        assertEquals(languageTwo, response.getBody().getBooks().get(1).getLanguage());
+        assertEquals(descriptionTwo, response.getBody().getBooks().get(1).getDescription());
     }
 
     @Test
     public void shouldFindAllBooksWithReturnNotFound() {
-        HttpEntity<BookResponse> entity = new HttpEntity<>(headers);
-        ResponseEntity<BookResponse> response = restTemplate.getForEntity(URI_API_BOOKS, BookResponse.class, entity);
+        repository.deleteAll();
+
+        HttpEntity<BookListResponse> entity = new HttpEntity<>(headers);
+        ResponseEntity<BookListResponse> response = restTemplate.getForEntity(URI_API_BOOKS, BookListResponse.class, entity);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
-
-    @After
-    public void tearDown() {
-        repository.deleteAll();
-    }
-
 }
