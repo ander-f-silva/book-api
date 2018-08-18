@@ -70,7 +70,7 @@ O projeto possui um documentação de API através do swagger.
 
 Para acessar:
 
-### Api: beer-style-resource : Beer Style Resource
+### Api: book-resource : book Resource
 
 http://localhost:8080/swagger-ui.html ou https://api-books.herokuapp.com/swagger-ui.htm
 
@@ -81,7 +81,7 @@ http://localhost:8080/swagger-ui.html ou https://api-books.herokuapp.com/swagger
 
 Para executar o versão no ambiente local é necessario ter versão a partir do 8.
 
-Não precisa instalar o gradlew, pois na raiz do projeto possui o gradle wrapper que pode ser usado no Windows o Linux.
+Não precisa instalar o mvnw, pois na raiz do projeto possui o gradle wrapper que pode ser usado no Windows o Linux.
 
 Antes de realizar o deploy execute o comando abaixo para executar os testes:
 
